@@ -12,10 +12,13 @@ import java.util.List;
 
 public interface ParkingPlaceRepo extends JpaRepository<ParkingPlace, Long> {
     @Query("select p from ParkingPlace p " +
-            "where p = :status")
-    List<ParkingPlace> findAllNotReserved(@Param("status") ParkingPlaceStatus parkingPlaceStatus);
+            "where p.status = com.jdbc.exam.enums.ParkingPlaceStatus.EMPTY")
+    List<ParkingPlace> findAllNotReserved();
 
     @Query("select p from ParkingPlace p " +
             "where p.placeEnums = :type ")
     List <ParkingPlace> findParkingPlaceByType(@Param("type") ParkingPlaceEnums parkingPlaceEnums);
+    @Query("select p from  ParkingPlace p " +
+            "where p.status = com.jdbc.exam.enums.ParkingPlaceStatus.EMPTY and p.id = :id")
+    ParkingPlace findAvailablePlaceById(@Param("id")Long id);
 }

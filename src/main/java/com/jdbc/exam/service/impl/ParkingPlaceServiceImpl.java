@@ -1,5 +1,6 @@
 package com.jdbc.exam.service.impl;
 
+import com.jdbc.exam.dto.CreateParkingPlaceDto;
 import com.jdbc.exam.dto.ParkingPlaceDto;
 import com.jdbc.exam.entity.ParkingPlace;
 import com.jdbc.exam.enums.ParkingPlaceEnums;
@@ -67,7 +68,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 
     @Override
     public List<ParkingPlaceDto> findNotReservedLot() {
-        List<ParkingPlace> parkingPlaces = parkingPlaceRepo.findAllNotReserved(ParkingPlaceStatus.EMPTY);
+        List<ParkingPlace> parkingPlaces = parkingPlaceRepo.findAllNotReserved();
 
         List<ParkingPlaceDto> parkingPlaceDtos = new ArrayList<>();
         for(ParkingPlace parkingPlace : parkingPlaces){
@@ -83,21 +84,20 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
     }
 
     @Override
-    public ParkingPlaceDto createParkingPlace(ParkingPlaceDto parkingPlaceDto) {
-        ParkingPlace parkingPlace = ParkingPlace.builder()
-                .id(parkingPlaceDto.getId())
-                .parkingLot(parkingPlaceDto.getParkingLot())
-                .placeEnums(parkingPlaceDto.getPlaceEnums())
-                .status(parkingPlaceDto.getStatus())
+    public CreateParkingPlaceDto create(CreateParkingPlaceDto parkingPlaceToCreate) throws RuntimeException {
+        try{ ParkingPlace parkingPlaceEntity = ParkingPlace.builder()
+                .parkingLot(Integer.valueOf(parkingPlaceToCreate.getSpotNumber()))
+                .placeEnums(parkingPlaceToCreate.getParkingPlaceEnums())
+                .status(ParkingPlaceStatus.EMPTY)
                 .build();
-
-        try{
-            parkingPlaceRepo.save(parkingPlace);
+            parkingPlaceRepo.save(parkingPlaceEntity);
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            throw new RuntimeException();
         }
-        return parkingPlaceDto;
+        return parkingPlaceToCreate;
     }
+
+
 
     @Override
     public void deleteById(Long id) {

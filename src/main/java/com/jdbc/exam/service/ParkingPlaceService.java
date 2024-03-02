@@ -1,5 +1,6 @@
 package com.jdbc.exam.service;
 
+import com.jdbc.exam.dto.CreateParkingPlaceDto;
 import com.jdbc.exam.dto.ParkingPlaceDto;
 import com.jdbc.exam.enums.ParkingPlaceEnums;
 
@@ -10,7 +11,7 @@ public interface ParkingPlaceService {
     ParkingPlaceDto findParkingLot(Long id);
     List<ParkingPlaceDto>  findParkingLotType(ParkingPlaceEnums placeEnums);
     List<ParkingPlaceDto> findNotReservedLot();
-    ParkingPlaceDto createParkingPlace(ParkingPlaceDto parkingPlaceDto);
+    CreateParkingPlaceDto create(CreateParkingPlaceDto parkingPlaceToCreate);
     void deleteById(Long id);
 
 }

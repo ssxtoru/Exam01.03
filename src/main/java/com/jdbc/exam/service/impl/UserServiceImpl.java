@@ -1,5 +1,6 @@
 package com.jdbc.exam.service.impl;
 
+import com.jdbc.exam.dto.CreateUserDto;
 import com.jdbc.exam.dto.UserDto;
 import com.jdbc.exam.entity.User;
 import com.jdbc.exam.repo.UserRepo;
@@ -18,19 +19,20 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
+
+
     @Override
-    public UserDto createUser(UserDto userDto) {
+    public CreateUserDto create(CreateUserDto userToCreate) throws RuntimeException{
         User user = User.builder()
-                .id(userDto.getId())
-                .name(userDto.getName())
-                .surname(userDto.getSurname())
+                .name(userToCreate.getName())
+                .surname(userToCreate.getSurname())
                 .build();
-        try {
+        try{
             userRepo.save(user);
-        } catch (Exception e) {
-            log.error(e.getStackTrace().toString());
+        }catch (Exception e){
+            throw new RuntimeException();
         }
-        return userDto;
+        return userToCreate;
     }
 
     @Override
