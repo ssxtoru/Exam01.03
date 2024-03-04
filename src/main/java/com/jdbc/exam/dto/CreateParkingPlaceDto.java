@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CreateParkingPlaceDto {
+    private Long id;
     private String spotNumber;
     private ParkingPlaceEnums parkingPlaceEnums;
 }

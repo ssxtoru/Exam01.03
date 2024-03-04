@@ -86,7 +86,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
     @Override
     public CreateParkingPlaceDto create(CreateParkingPlaceDto parkingPlaceToCreate) throws RuntimeException {
         try{ ParkingPlace parkingPlaceEntity = ParkingPlace.builder()
-                .parkingLot(Integer.valueOf(parkingPlaceToCreate.getSpotNumber()))
+                .parkingLot(parkingPlaceToCreate.getSpotNumber())
                 .placeEnums(parkingPlaceToCreate.getParkingPlaceEnums())
                 .status(ParkingPlaceStatus.EMPTY)
                 .build();

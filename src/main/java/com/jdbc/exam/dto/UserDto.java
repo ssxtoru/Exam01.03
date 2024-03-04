@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class UserDto {
-    private Integer id;
+    private Long id;
     private String name;
     private String surname;
     private List<ParkingPlace> parkingPlaces;

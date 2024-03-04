@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ParkingPlaceDto {
-    private Integer id;
-    private Integer parkingLot;
+    private Long id;
+    private String parkingLot;
     private ParkingPlaceEnums placeEnums;
     private ParkingPlaceStatus status;
 }

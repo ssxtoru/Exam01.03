@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 public class ParkingPlace {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Integer parkingLot;
+    private Long id;
+    private String parkingLot;
     private ParkingPlaceEnums placeEnums;
     private ParkingPlaceStatus status;
 }

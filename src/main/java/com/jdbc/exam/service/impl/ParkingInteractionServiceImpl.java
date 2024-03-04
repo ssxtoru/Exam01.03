@@ -21,8 +21,8 @@ public class ParkingInteractionServiceImpl implements ParkingInteractionService 
     @Override
     public String reservePlace(CreateParkingInteractionDto reservePlace) throws RuntimeException{
         Long orderId;
-        if (userRepo.findById(Long.valueOf(reservePlace.getParkingPlace().getId())).isPresent() &&
-                parkingPlaceRepo.findAvailablePlaceById(Long.valueOf(reservePlace.getParkingPlace().getId())) != null) {
+        if (userRepo.findById(reservePlace.getParkingPlace().getId()).isPresent() &&
+                parkingPlaceRepo.findAvailablePlaceById(reservePlace.getParkingPlace().getId()) != null) {
 
             try {
                 ParkingInteraction reserve = ParkingInteraction.builder()
@@ -35,7 +35,7 @@ public class ParkingInteractionServiceImpl implements ParkingInteractionService 
                 throw new RuntimeException("Some thing went wrong!");
             }
             ParkingPlace reservedParkingPlace =
-                    parkingPlaceRepo.findAvailablePlaceById(Long.valueOf(reservePlace.getParkingPlace().getId()));
+                    parkingPlaceRepo.findAvailablePlaceById(reservePlace.getParkingPlace().getId());
 
             reservedParkingPlace.setStatus(ParkingPlaceStatus.RESERVED);
             parkingPlaceRepo.save(reservedParkingPlace);
@@ -48,7 +48,7 @@ public class ParkingInteractionServiceImpl implements ParkingInteractionService 
         ParkingInteraction parkingInteraction = parkingInteractionRepo.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order with id - " + orderId + " is not found"));
 
-        ParkingPlace placeEntity = parkingPlaceRepo.findById(Long.valueOf(parkingInteraction.getParkingPlace().getId()))
+        ParkingPlace placeEntity = parkingPlaceRepo.findById(parkingInteraction.getParkingPlace().getId())
                 .orElseThrow(()->new EntityNotFoundException("Place with id - " + parkingInteraction.getParkingPlace().getId() + " is not available"));
         placeEntity.setStatus(ParkingPlaceStatus.ENGAGED);
         parkingPlaceRepo.save(placeEntity);
@@ -60,8 +60,8 @@ public class ParkingInteractionServiceImpl implements ParkingInteractionService 
     @Override
     public String takePlace(CreateParkingInteractionDto takePlace) throws RuntimeException{
         Long orderId;
-        if (userRepo.findById(Long.valueOf(takePlace.getUser().getId())).isPresent() &&
-                parkingPlaceRepo.findAvailablePlaceById(Long.valueOf(takePlace.getParkingPlace().getId())) != null) {
+        if (userRepo.findById(takePlace.getUser().getId()).isPresent() &&
+                parkingPlaceRepo.findAvailablePlaceById(takePlace.getParkingPlace().getId()) != null) {
 
             try {
                 ParkingInteraction reserve = ParkingInteraction.builder()
@@ -74,7 +74,7 @@ public class ParkingInteractionServiceImpl implements ParkingInteractionService 
                 throw new RuntimeException("Some thing went wrong");
             }
             ParkingPlace takeParkingPlace =
-                    parkingPlaceRepo.findAvailablePlaceById(Long.valueOf(takePlace.getParkingPlace().getId()));
+                    parkingPlaceRepo.findAvailablePlaceById(takePlace.getParkingPlace().getId());
 
             takeParkingPlace.setStatus(ParkingPlaceStatus.ENGAGED);
             parkingPlaceRepo.save(takeParkingPlace);
@@ -88,7 +88,7 @@ public class ParkingInteractionServiceImpl implements ParkingInteractionService 
     public String releaseParkingPlace(Long orderId) throws EntityNotFoundException{
         ParkingInteraction entity = parkingInteractionRepo.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order with id - " + orderId + " is not found"));
-        ParkingPlace parkingPlace = parkingPlaceRepo.findById(Long.valueOf(entity.getParkingPlace().getId()))
+        ParkingPlace parkingPlace = parkingPlaceRepo.findById(entity.getParkingPlace().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Place with id - " + orderId + " is not found"));
 
         parkingPlace.setStatus(ParkingPlaceStatus.EMPTY);
